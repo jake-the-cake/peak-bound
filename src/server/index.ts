@@ -17,6 +17,13 @@ function useBasicMiddleware(app: Express) {
 
 function createExpressServer() {
   const app: Express = useBasicMiddleware(express())
+
+  // custom middleware
+  app.route('*').all(function (req, res, next) {
+    console.log('Requesting path ->', req.url)
+    next()
+  })
+
   return app
 }
 
