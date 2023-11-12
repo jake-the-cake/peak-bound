@@ -1,3 +1,7 @@
-import { startServer } from "./server";
+import { QuiggleServer } from "./_quiggle/server";
 
-startServer()
+const server = new QuiggleServer(6047, 'PBJ')
+
+server.app.get('/', (req, res) => res.send('data'))
+
+server.serve()
