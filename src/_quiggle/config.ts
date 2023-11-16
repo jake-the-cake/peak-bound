@@ -3,6 +3,9 @@ const defaults = {
 }
 
 const CONFIG = {
+  regex: {
+    content: new RegExp('\{\!.*?\!\}', 'g')
+  },
   host: process.env.HOST_IP || defaults.host,
   db: {
     uri: process.env.MONGO_URI || process.env.MONGO_DEV || `mongodb://${ defaults.host }:27017/no-db`
