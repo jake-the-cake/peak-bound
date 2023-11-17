@@ -25,7 +25,7 @@ function startServer() {
   app.get('/', (req, res) => res.send('data'))
 	app.get('/test', (req, res) => {
 		new Promise((resolve, reject) => {
-			const render = new QuiggleRender('error/home', {
+			const render = new QuiggleRender('home', {
 				title: 'PBJ Service'
 			})
 			resolve(render)
