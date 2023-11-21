@@ -15,7 +15,9 @@ class QuiggleRender {
 		const placeholders = this.placeholder.find(this.html)
 		if (placeholders) {
 			this.html = this.placeholder.serialize(this.html, uniqueArrayValues(placeholders) as string[])
+			this.checkMeta
 			this.placeholder.logic(placeholders[0])
+
 		}
 	}
 	
@@ -45,12 +47,21 @@ class QuiggleRender {
 		}
 	}
 	
+	checkMeta(data: any[]) {
+		const entries = Object.entries(data)
+		if (entries.length > 0) {
+			entries.forEach((entry: [string, any]) => {
+	
+			})
+		}
+	}
 
 }
 
 export {
 	QuiggleRender
 }
+
 
 function uniqueArrayValues(arr: unknown[]): unknown[] {
 	const newArray: unknown[] = []
