@@ -15,7 +15,8 @@ class QuiggleRender {
 		const placeholders = this.placeholder.find(this.html)
 		if (placeholders) {
 			this.html = this.placeholder.serialize(this.html, uniqueArrayValues(placeholders) as string[])
-			this.checkMeta
+			console.log(placeholders)
+			this.checkMeta(placeholders)
 			this.placeholder.logic(placeholders[0])
 
 		}
@@ -39,28 +40,65 @@ class QuiggleRender {
 			return value
 		},
 		logic: (value: string) => {
-			value = String(value).replace('{!', '').replace('!}', '').trim()
+			value = this.placeholder.strip(value)
 			const commandLines = value.split('\n')
+			return {
+				commandLines
+			}
 		},
 		use: () => {
 			console.log('use it!')
+		},
+		strip: (value: string): string => {
+			return String(value).replace('{!', '').replace('!}', '').trim()
 		}
 	}
 	
 	checkMeta(data: any[]) {
+		console.log(data)
 		const entries = Object.entries(data)
 		if (entries.length > 0) {
 			entries.forEach((entry: [string, any]) => {
-	
+				if (entry[1].match(/\s*meta\.\s*/) ) console.log('yay')
+				this.parseFunction(entry[1])
+				console.log(entry, 'hi')
 			})
 		}
 	}
 
+	parseFunction(value: string) {
+		const position: {start: number | null, end: number | null} = {
+			start: null,
+			end: null
+		}
+		const splitValue: string[] = this.placeholder.strip(value).split('')
+		splitValue.forEach((char: string, index: number) => {
+			if (position.start === null && char === '(') position.start = index
+			if (typeof position.start === 'number' && position.end === null) {
+				console.log('no end')
+				for (let i = splitValue.length - 1; i >= position.start; i--) {
+					console.log(i)	
+					if (position.end === null && splitValue[i] === ')') position.end = i
+				}
+			}
+		})
+		if (
+			typeof position.start === 'number'
+			&& typeof position.end === 'number'
+			&& position.start < position.end
+		) {
+			const f = value.slice(0, position.start)
+			const props = value.slice(position.start + 1, position.end)
+			console.log(f, props)
+		}
+		console.log(position)
+	}
 }
 
 export {
 	QuiggleRender
 }
+
 
 
 function uniqueArrayValues(arr: unknown[]): unknown[] {

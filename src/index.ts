@@ -2,9 +2,10 @@ import { QuiggleDatabase } from "./_quiggle/data/db";
 import { QuiggleServer } from "./_quiggle/server";
 import { QuiggleRender } from "./_quiggle/server/render";
 
+/* currently returns void */
 const connection = new Promise((resolve, reject) => {
-  const db = new QuiggleDatabase('+host/pbj')
   try {
+    const db = new QuiggleDatabase('+host/pbj')
     db.serve('Database connected', startServer)
     resolve(db)
   }
@@ -19,7 +20,7 @@ const connection = new Promise((resolve, reject) => {
   // unknown
 })
 
-function startServer() {
+function startServer(): void {
   const server = new QuiggleServer(6047, 'PBJ')
   const { app } = server
   app.get('/', (req, res) => res.send('data'))
